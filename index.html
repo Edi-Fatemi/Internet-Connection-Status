@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Internet Connection Status</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1 id="message">Checking Network Connection</h1>
+    <div id="status"></div>
+
+    <script>
+      const getUserConnectionStatus = async () => {
+        try {
+          const network = await fetch("https://source.unsplash.com/1x1");
+          return network.status >= 200 && network.status < 300;
+        } catch (error) {
+          return false;
+        }
+      };
+
+      setInterval(async () => {
+        const result = await getUserConnectionStatus();
+        const statusDisplay = document.getElementById("message");
+        const status = document.getElementById("status");
+        if (result) {
+          statusDisplay.textContent = "Internet Connection Available";
+          statusDisplay.style.cssText =
+            "background-color: #e7f6d5; color: #689f38;";
+          status.classList.add("online");
+          status.textContent = `Status: ${"online".toUpperCase()}`;
+        } else {
+          statusDisplay.textContent = "No Internet Connection";
+          message.style.cssText = "background-color: #ffdde0; color: #d32f2f;";
+          status.classList.remove("online");
+          status.textContent = `Status: ${"offline".toUpperCase()}`;
+        }
+      }, 3000);
+    </script>
+  </body>
+</html>
